@@ -116,11 +116,15 @@ apply (Kokkos::View<const mv_scalar_type**, array_layout,
   //TODO: whent that is supported, use A_cusparse for that case also
   if(X.extent(1) == size_t(1) && have_A_cusparse)
   {
+    std::cout << "POINTCRS LOCAL IS HERE - CUSPARSE" << std::endl;
+
     KokkosSparse::spmv (op, alpha, A_cusparse, Kokkos::subview(X, Kokkos::ALL(), 0),
                             beta, Kokkos::subview(Y, Kokkos::ALL(), 0));
   }
   else
   {
+    std::cout << "POINTCRS LOCAL IS HERE - NO CUSPARSE" << std::endl;
+
     KokkosSparse::spmv (op, alpha, *A_, X, beta, Y);
   }
 }
